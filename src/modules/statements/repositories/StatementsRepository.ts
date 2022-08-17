@@ -43,12 +43,13 @@ export class StatementsRepository implements IStatementsRepository {
     const statement = await this.repository.find({
       where: { user_id }
     });
-
+    // Balance was "null" for some reason, so Number() was necessary
     const balance = statement.reduce((acc, operation) => {
+      console.log(acc, operation)
       if (operation.type === 'deposit') {
-        return acc + operation.amount;
+        return acc + Number(operation.amount);
       } else {
-        return acc - operation.amount;
+        return acc - Number(operation.amount);
       }
     }, 0)
 
