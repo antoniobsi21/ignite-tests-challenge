@@ -20,7 +20,7 @@ describe('Get User Balance', () => {
     getBalanceUseCase = new GetBalanceUseCase(inMemoryStatementsRepository, inMemoryUsersRepository);
   })
 
-  it('should be able to get the balance if authenticated', async () => {
+  it('should be able to get the balance if user exists', async () => {
     const user = await inMemoryUsersRepository.create({
       name: 'Test User',
       email: 'test@mail.com',

@@ -45,7 +45,6 @@ export class StatementsRepository implements IStatementsRepository {
     });
     // Balance was "null" for some reason, so Number() was necessary
     const balance = statement.reduce((acc, operation) => {
-      console.log(acc, operation)
       if (operation.type === 'deposit') {
         return acc + Number(operation.amount);
       } else {

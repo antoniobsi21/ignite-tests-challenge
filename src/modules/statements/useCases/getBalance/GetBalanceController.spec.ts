@@ -39,7 +39,6 @@ describe('Get Balance Controller', () => {
       password: 'admin'
     });
     const { token } = loginResponse.body;
-    console.log(token);
     await request(app).post('/api/v1/statements/deposit').send({
       amount: 100,
       description: 'Test',
@@ -58,7 +57,6 @@ describe('Get Balance Controller', () => {
       Authorization: `Bearer ${token}`
     });
 
-    console.log(balanceResponse.body);
 
     expect(balanceResponse.body).toHaveProperty('balance');
     expect(balanceResponse.body.balance).toBe(200);
