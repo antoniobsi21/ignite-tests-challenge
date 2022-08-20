@@ -14,7 +14,7 @@ enum OperationType {
 
 let connection: Connection;
 
-describe('Get Balance Controller', () => {
+describe('Get Statement Operation Controller', () => {
   beforeAll(async () => {
     connection = await createConnection("localhost");
     await connection.dropDatabase();
@@ -33,32 +33,30 @@ describe('Get Balance Controller', () => {
   })
 
 
-  it('should be able to get balance if authenticated', async () => {
+  it('should be able to get statement operation if authenticated and statement exists', async () => {
     const loginResponse = await request(app).post('/api/v1/sessions').send({
       email: 'admin@rentx.com.br',
       password: 'admin'
     });
     const { token } = loginResponse.body;
-    await request(app).post('/api/v1/statements/deposit').send({
+    const depositResponse = await request(app).post('/api/v1/statements/deposit').send({
       amount: 100,
       description: 'Test',
     }).set({
       Authorization: `Bearer ${token}`
     });
 
-    await request(app).post('/api/v1/statements/deposit').send({
-      amount: 100,
-      description: 'Test',
-    }).set({
+    // Redundant
+    expect(depositResponse.body).toHaveProperty('id');
+
+    const statementOperationResponse = await request(app).post(`/api/v1/statements/${depositResponse.body.id}`).set({
       Authorization: `Bearer ${token}`
     });
 
-    const balanceResponse = await request(app).get('/api/v1/statements/balance').set({
-      Authorization: `Bearer ${token}`
-    });
-
-    expect(balanceResponse.body).toHaveProperty('balance');
-    expect(balanceResponse.body.balance).toBe(200);
+    expect(statementOperationResponse.body).toHaveProperty('amount');
+    expect(statementOperationResponse.body.amount).toEqual(100);
+    expect(statementOperationResponse.body).toHaveProperty('type');
+    expect(statementOperationResponse.body.type).toEqual('deposit');
 
   });
 });
