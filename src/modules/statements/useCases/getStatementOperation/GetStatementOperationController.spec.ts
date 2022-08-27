@@ -49,14 +49,19 @@ describe('Get Statement Operation Controller', () => {
     // Redundant
     expect(depositResponse.body).toHaveProperty('id');
 
-    const statementOperationResponse = await request(app).post(`/api/v1/statements/${depositResponse.body.id}`).set({
+    const statementOperationResponse = await request(app).get(`/api/v1/statements/${depositResponse.body.id}`).set({
       Authorization: `Bearer ${token}`
     });
 
-    expect(statementOperationResponse.body).toHaveProperty('amount');
-    expect(statementOperationResponse.body.amount).toEqual(100);
     expect(statementOperationResponse.body).toHaveProperty('type');
     expect(statementOperationResponse.body.type).toEqual('deposit');
+    expect(statementOperationResponse.body).toHaveProperty('amount');
+    // Idk, sometimes its a string and sometimes its a number
+    // "If some type looks numeric but uses string instead of number,
+    // it means it cannot store its number in a regular javascript's "number" 
+    // type because of length limitations javascript number has. That's why string is used instead of number."
+    // https://github.com/typeorm/typeorm/issues/873
+    expect(statementOperationResponse.body.amount).toEqual('100.00');
 
   });
 });
