@@ -43,7 +43,7 @@ describe('Get User Balance', () => {
 
   })
 
-  it('should be able to withdraw if has "money" and user exists', async () => {
+  it('should be able to withdraw if has enough "money" and user exists', async () => {
     const user = await inMemoryUsersRepository.create({
       name: 'Test User',
       email: 'test@mail.com',

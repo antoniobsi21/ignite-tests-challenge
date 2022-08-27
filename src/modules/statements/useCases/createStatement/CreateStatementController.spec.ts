@@ -55,7 +55,7 @@ describe('Get Balance Controller', () => {
 
   });
 
-  it('should be able to withdraw if authenticated and have enough money', async () => {
+  it('should be able to withdraw if have enough money', async () => {
     const loginResponse = await request(app).post('/api/v1/sessions').send({
       email: 'admin@rentx.com.br',
       password: 'admin'
