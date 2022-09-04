@@ -14,7 +14,7 @@ enum OperationType {
 
 let connection: Connection;
 
-describe('Get Balance Controller', () => {
+describe('Create Statement Controller', () => {
   beforeAll(async () => {
     connection = await createConnection("localhost");
     await connection.dropDatabase();

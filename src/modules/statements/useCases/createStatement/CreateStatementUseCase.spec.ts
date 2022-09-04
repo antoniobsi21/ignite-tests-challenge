@@ -13,7 +13,7 @@ let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemoryStatementsRepository: InMemoryStatementsRepository;
 let createStatementUseCase: CreateStatementUseCase;
 
-describe('Get User Balance', () => {
+describe('Create Statement Use Case', () => {
 
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository();
